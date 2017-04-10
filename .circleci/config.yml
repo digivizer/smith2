@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  build:
+    working_directory: /usr/share/dgvz
+    docker:
+      - image: ruby:2.3
+        environment:
+          SMITH_ACL_DIRECTORIES: /usr/share/dgvz/lib/smith/messaging/acl
+          SMITH_CACHE_DIRECTORY: /usr/share/dgvz/cache
+          SMITH_AGENT_DIRECTORIES: /usr/share/dgvz/agents
+    steps:
+      - checkout
+      - restore_cache:
+          key: dashboard-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Install System
+          command: apt-get update && apt-get -y -q install protobuf-compiler=2.6.1-1
+      - run:
+          name: Bundle
+          command: bundle install
+      - save_cache:
+          key: dashboard-{{ checksum "Gemfile.lock" }}
+          paths:
+            - /usr/local/bundle
+      - run:
+          name: Run Tests
+          command: bundle exec rspec
