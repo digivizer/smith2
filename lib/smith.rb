@@ -16,6 +16,8 @@ require 'smith/config'
 require 'smith/utils'
 require 'smith/logger'
 require 'smith/acl_compiler'
+require 'smith/agent_cache'
+require 'smith/command'
 
 MultiJson.use(:oj)
 

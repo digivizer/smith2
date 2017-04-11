@@ -4,7 +4,7 @@ require 'spec_helper'
 
 module Smith
   module Commands
-    class Agents < Command
+    class Agents < Smith::Command
       def execute(target)
       end
     end
