@@ -8,6 +8,7 @@ $:.unshift(Pathname.new(__FILE__).dirname.parent.expand_path)
 
 require 'smith'
 require 'smith/agent'
+require 'rollbar'
 
 module Smith
   class AgentBootstrap
@@ -40,6 +41,17 @@ module Smith
 
           terminate!
         end
+      end
+    end
+
+    def enable_rollbar
+      ::Rollbar.configure do |config|
+        config.access_token = ENV.fetch('ROLLBAR_ACCESS_TOKEN')
+        config.environment = ::Smith.environment
+      end
+
+      @agent.on_exception do |exception|
+        ::Rollbar.error(exception, :class => self.class)
       end
     end
 
@@ -167,6 +179,8 @@ begin
   Smith.start do
     if bootstrapper.load_agent
       bootstrapper.signal_handlers
+      bootstrapper.enable_rollbar
+
       bootstrapper.start!
     end
   end
