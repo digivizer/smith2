@@ -63,7 +63,7 @@ vhost = ""
 
 [logging]
 trace = true
-level = "debug"
+level = "info"
 
 # Log pattern. Note you need to escape backslashes.
 default_pattern = "%d [%5p] %7l - %34c:%-3L - %m\n"
