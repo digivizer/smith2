@@ -68,7 +68,7 @@ module Smith
 
     # Return the acl cache path.
     def acl_cache_directory
-      cache_directory.join('acl').tap do |path|
+      cache_directory.tap do |path|
         check_path(path, true)
       end
     end
