@@ -23,7 +23,7 @@ module Smith
       private
 
       def options_spec
-        banner "Display or remove a message from the named queue.", "<queue>"
+        banner "Remove the named queue. Multiple queues can be given", "<queue[s]>"
 
         opt :force,         "force the removal even if there are messages on the queue", :short => :f
         opt :ignore_errors, "ignore any errors.", :default => false
@@ -44,7 +44,7 @@ module Smith
             log_error(channel, channel_close, &handler)
           end
 
-          channel.direct("smith.#{name}", :passive => true) do |exchange|
+          channel.direct("#{Smith.config.smith.namespace}.#{name}", :passive => true) do |exchange|
             exchange_options = (options[:force]) ? {} : {:if_unused => true}
             exchange.delete(exchange_options) do |delete_ok|
               blk.call(delete_ok)
@@ -67,7 +67,7 @@ module Smith
             log_error(channel, channel_close, &handler)
           end
 
-          channel.queue("smith.#{queue_name}", :passive => true) do |queue|
+          channel.queue("#{Smith.config.smith.namespace}.#{queue_name}", :passive => true) do |queue|
             queue_options = (options[:force]) ? {} : {:if_unused => true, :if_empty => true}
             queue.delete(queue_options) do |delete_ok|
               blk.call(delete_ok)
