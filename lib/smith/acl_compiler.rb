@@ -41,7 +41,7 @@ module Smith
 
       unless acls.empty?
         Dir.chdir(path) do
-          cmd = %Q{sh -c 'protoc --ruby_out=#{Smith.acl_cache_directory} -I #{path} #{out_of_date_acls.map(&:to_s).join(' ')} 2>&1'}
+          cmd = %Q{sh -c 'grpc_tools_ruby_protoc --ruby_out=#{Smith.acl_cache_directory} -I #{path} #{out_of_date_acls.map(&:to_s).join(' ')} 2>&1'}
           protoc = IO.popen(cmd)
           output = protoc.read
           protoc.close
@@ -60,9 +60,9 @@ module Smith
       {:file => e[0], :line => e[1], :pos => e[2], :error => e[3,-1]}
     end
 
-    # Returns true if the .proto file is newer that the .pb.rb file
+    # Returns true if the .proto file is newer that the _pb.rb file
     def should_compile?(file)
-      cached_file = Smith.acl_cache_directory.join(file.basename).sub_ext(".pb.rb")
+      cached_file = Smith.acl_cache_directory.join(file.basename).sub_ext("_pb.rb")
       if cached_file.exist?
         file.mtime > cached_file.mtime
       else
@@ -109,7 +109,7 @@ module Smith
     end
 
     def acl_compiled_path(path)
-      "#{Smith.acl_cache_directory.join(path.basename('.proto'))}.pb.rb"
+      "#{Smith.acl_cache_directory.join(path.basename('.proto'))}_pb.rb"
     end
   end
 end

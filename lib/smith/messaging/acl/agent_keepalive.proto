@@ -1,6 +1,8 @@
+syntax = "proto3";
+
 package Smith.ACL;
 message AgentKeepalive {
-  optional string  uuid = 1;
-  required string name = 2;
-  optional int64 time = 3;
+  string  uuid = 1;
+  string name = 2;
+  int64 time = 3;
 }

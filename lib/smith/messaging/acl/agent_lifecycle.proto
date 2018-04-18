@@ -1,18 +1,20 @@
+syntax = "proto3";
+
 package Smith.ACL;
 
 message AgentAcknowledgeStart {
-  required string   uuid = 1;
-  required int32    pid = 2;
-  required int64    started_at = 3;
-  optional bool     singleton = 4;
-  optional bool     monitor = 5;
-  optional string   metadata = 6;
+  string   uuid = 1;
+  int32    pid = 2;
+  int64    started_at = 3;
+  bool     singleton = 4;
+  bool     monitor = 5;
+  string   metadata = 6;
 }
 
 message AgentAcknowledgeStop {
-  required string   uuid = 1;
+  string   uuid = 1;
 }
 
 message AgentDead {
-  required string   uuid = 1;
+  string   uuid = 1;
 }

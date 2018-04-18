@@ -1,4 +1,6 @@
+syntax = "proto3";
+
 package Smith.ACL;
 message AgentConfigRequest {
-  required string agent = 1;
+  string agent = 1;
 }
