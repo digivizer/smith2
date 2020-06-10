@@ -47,7 +47,7 @@ module Smith
     def enable_rollbar
       ::Rollbar.configure do |config|
         config.access_token = ENV.fetch('ROLLBAR_ACCESS_TOKEN')
-        config.environment = ::Smith.environment
+        config.environment = ENV.fetch('ROLLBAR_ENV')
       end
 
       @agent.on_exception do |exception|
