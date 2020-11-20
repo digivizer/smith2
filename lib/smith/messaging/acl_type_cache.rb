@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 require 'set'
-require 'extlib'
 require 'singleton'
 require 'murmurhash3'
 
